@@ -2,6 +2,12 @@
 
 This project aims to enhance and optimize the infrastructure for electric vehicle (EV) charging stations. The focus is on developing solutions that improve accessibility, efficiency, and sustainability within charging networks.
 
+## Project Members
+
+- Mandar Joshi.
+- Abhishek Rai.
+- Anand Sarolkar.
+
 ## Overview
 
 Electric vehicles are rapidly becoming a prominent mode of transportation, and the need for reliable and accessible charging stations is crucial. This project seeks to address challenges in this area by:
