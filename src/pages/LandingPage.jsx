@@ -55,12 +55,15 @@ const LandingPage = () => {
                 />
             </div>
             <div className=" w-full h-[100vh] flex-box flex-col bg-[#f8f1ff] relative">
-                <img
-                    src={evImg}
-                    alt="background"
-                    className="w-[70%] h-[40rem] object-cover shadow-[rgba(0,_0,_0,_0.2)_0px_60px_40px_-7px]  absolute z-10 top-[-45%] left-[50%] translate-x-[-50%] rounded-xl " 
-                    draggable={false}
+                <div className="w-[70%] h-[40rem] overflow-hidden absolute  z-10 top-[-45%] left-[50%] translate-x-[-50%] rounded-xl shadow-[rgba(0,_0,_0,_0.2)_0px_60px_40px_-7px] ">
+                    <img
+                        src={evImg}
+                        alt="background"
+                        className=" w-full h-full object-cover   " 
+                        draggable={false}
                 />
+                </div>
+
                 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore, magnam.</p>
                 <h1 className=" text-5xl font-bold text-violet-500">Sunday Update<span className=" text-cyan-600"></span></h1>
             </div>
