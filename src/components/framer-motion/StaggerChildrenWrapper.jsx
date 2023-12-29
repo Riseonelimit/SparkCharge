@@ -17,7 +17,7 @@ const StaggerChildrenWrapper = (props) => {
     }
 
   return (
-    <motion.div className={`overflow-hidden flex gap-[0.3em]  ${props.style}`} variants={container} initial="hidden" animate="visible" >{props.children}</motion.div>
+    <motion.div className={`overflow-hidden flex gap-[0.3em]  ${props.style}`} variants={container} initial="hidden" whileInView="visible" >{props.children}</motion.div>
   )
 }
 
