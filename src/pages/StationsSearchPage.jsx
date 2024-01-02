@@ -15,7 +15,7 @@ const StationsSearchPage = () => {
             <h1 className=' small-title text-violet-500 '>Stations</h1>
             <hr className=' w-full h-1 bg-violet-500 rounded-xl'/>
           </div>
-          <div className=' w-full h-[100%]  overflow-y-scroll no-scrollbar border-red-500  gap-8 flex-box justify-start flex-col'>
+          <div className=' w-[85%] h-[100%]  overflow-y-scroll no-scrollbar border-red-500  gap-8 flex-box justify-start flex-col'>
 
             {true ? <>
               <SearchStationCard/>

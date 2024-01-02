@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Stations from './pages/StationsSearchPage.jsx'
 import StationsSearchPage from './pages/StationsSearchPage.jsx'
 import Station from './pages/Station.jsx'
+import DataContext from './context/DataContext.jsx'
 
 const router = createBrowserRouter([{
   path:'/',
@@ -25,6 +26,8 @@ const router = createBrowserRouter([{
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <DataContext>
+      <RouterProvider router={router}/>
+    </DataContext>
   </React.StrictMode>,
 )
