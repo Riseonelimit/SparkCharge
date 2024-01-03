@@ -7,6 +7,7 @@ import Stations from './pages/StationsSearchPage.jsx'
 import StationsSearchPage from './pages/StationsSearchPage.jsx'
 import Station from './pages/Station.jsx'
 import DataContext from './context/DataContext.jsx'
+import Login from './pages/Login.jsx'
 
 const router = createBrowserRouter([{
   path:'/',
@@ -19,6 +20,14 @@ const router = createBrowserRouter([{
     {
       path:'stations/:station_slug',
       element:<Station/>
+    },
+    {
+      path:'login',
+      element:<Login/>
+    },
+    {
+      path:'register',
+      element:<Login/>
     }
   ]
 }])

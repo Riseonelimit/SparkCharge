@@ -6,6 +6,7 @@ import GradientButton from './GradientButton'
 import axios from 'axios'
 import { Data } from '../context/DataContext'
 import { userAction } from '../action/user_actions'
+import GradientLink from './utils/GradientLink'
 
 const Navbar = () => {
 
@@ -13,24 +14,6 @@ const Navbar = () => {
     const {pathname} = useLocation()
     const context = useContext(Data);
 
-    const handleLogin = async () => {
-
-        const reqData = {
-            "email":"test@gmail.com",
-            "password":"Test1234"
-        }
-        const {data,status} = await axios.post("http://srv3.unstablehosting.co.in:8081/api/v1/user/login",reqData,{
-            headers:{
-                "Content-Type":'application/json'
-            }
-        })
-
-        if(status == 200){
-            context.USER_DATA_DISPATCH({type:userAction.LOGGED_IN,payload:data.data["user"]})        
-        }
-    }
-    // console.log(pathname);
-    console.log({userData:context.USER_DATA})
     return (
         <>
         <div ref={ref}></div>
@@ -52,8 +35,8 @@ const Navbar = () => {
                 </div>
                 :
                 <div className=' w-full flex-box justify-end gap-3 col-span-1'>
-                    <GradientButton onClickHandler={handleLogin} text={"Login"}/>
-                    <GradientButton text={"Sign Up"}/>
+                    <GradientLink url={'/login'} text={"Login"}/>
+                    <GradientLink url={'/register'} text={"Sign Up"}/>
                 </div>
             }
 
