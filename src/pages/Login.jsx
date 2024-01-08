@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Link, useLocation, useNavigate } from "react-router-dom";
 import GradientButton from "../components/GradientButton";
 
@@ -6,53 +6,69 @@ import blob from "/src/assets/fingerprint.svg";
 import wave from "/src/assets/wave2.svg";
 import { login, register } from "../api/auth/auth";
 import { Data } from "../context/DataContext";
-import { userAction } from "../action/user_actions";
+import ErrorText from "../components/utils/ErrorText";
+import { userAction } from "../action/action.js";
 
 const Login = () => {
 
-    const {pathname} = useLocation()
+    const { pathname } = useLocation();
     const context = useContext(Data);
     const navigate = useNavigate();
-
-    const [logInCredentials, setLogInCredentials] = useState({
-        name:"",
-        phone:"",
+    
+    const initialError = {
+        status:false,
+        message:""
+    }
+    const initialLoginInCredentials = {
+        name: "",
+        phone: "",
         email: "",
         password: "",
-    });
+    }
 
+    const [error,setError] = useState(initialError);
+
+    const [logInCredentials, setLogInCredentials] = useState(initialLoginInCredentials);
+
+    useEffect(()=>{
+        setError(initialError)
+        setLogInCredentials(initialLoginInCredentials)
+    },[pathname])
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        const userData = await login(logInCredentials);
+        const loginResponse = await login(logInCredentials);
 
-        if (userData != null) {
-            console.log("if");
-
-            localStorage.setItem("accessToken",userData["accessToken"]);
-            context.USER_DATA_DISPATCH({
-                type: userAction.LOGGED_IN,
-                payload: userData["user"],
-            });
-            return navigate("/stations", { replace: true });
+        if(loginResponse.success == false){
+            return setError({status:true,message:loginResponse.message});
         }
+
+        localStorage.setItem("accessToken", loginResponse.userData["accessToken"]);
+
+        context.USER_DATA_DISPATCH({
+            type: userAction.LOGGED_IN,
+            payload: loginResponse.userData["user"],
+        });
+
+        return navigate("/stations", { replace: true });
     };
 
+    const handleRegister = async (e) => {
+        e.preventDefault();
 
-    const handleRegister = async (e)=>{
-      e.preventDefault();
+        const registerResponse = await register(logInCredentials);
 
-      console.log(logInCredentials);
-      const userData = await register(logInCredentials);
-      if (userData != null) {
-          console.log("if");
-          context.USER_DATA_DISPATCH({
-              type: userAction.LOGGED_IN,
-              payload: userData,
-          });
-          return navigate("/stations", { replace: true });
-      }
-    }
+        if(registerResponse.success == false){
+            return setError({status:true,message:registerResponse.message})
+        }
+
+        context.USER_DATA_DISPATCH({
+            type: userAction.LOGGED_IN,
+            payload: registerResponse.userData["data"],
+        });
+
+        return navigate("/stations", { replace: true });
+    };
 
     return (
         <section className=" w-full h-[100vh] flex-box flex-col justify-start  bg-[#f8f1ff]  ">
@@ -71,11 +87,10 @@ const Login = () => {
 
                 <Form className=" col-span-1 w-1/4   border-green-400 flex-box flex-col gap-4 mt-6">
                     <h1 className=" small-title  bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-violet-400 via-violet-600 to-sky-600 shadow-inner  text-transparent bg-clip-text">
-                    { pathname === '/register' ? "SignUp" : "Login" } 
+                        {pathname === "/register" ? "SignUp" : "Login"}
                     </h1>
 
-                    {
-                      pathname === '/register' ? 
+                    {pathname === "/register" ? (
                         <>
                             <div className="w-full flex-box flex-col gap-1">
                                 <h1 className=" text-xl font-semibold self-start">
@@ -83,11 +98,13 @@ const Login = () => {
                                 </h1>
                                 <input
                                     value={logInCredentials.name}
-                                    onChange={(e) =>
+                                    onChange={(e) =>{
+                                        setError(initialError)
                                         setLogInCredentials({
                                             ...logInCredentials,
                                             name: e.target.value,
                                         })
+                                    }
                                     }
                                     type="text"
                                     className=" w-full px-3 py-2 focus:outline-none bg-violet-200 duration-300 focus:shadow-xl focus:shadow-violet-200 text-lg outline-violet-400 rounded-lg "
@@ -111,9 +128,7 @@ const Login = () => {
                                 />
                             </div>
                         </>
-                        :
-                        null
-                    }
+                    ) : null}
 
                     <div className="w-full flex-box flex-col gap-1">
                         <h1 className=" text-xl font-semibold self-start">
@@ -121,11 +136,13 @@ const Login = () => {
                         </h1>
                         <input
                             value={logInCredentials.email}
-                            onChange={(e) =>
+                            onChange={(e) =>{
+                                setError(initialError)
                                 setLogInCredentials({
                                     ...logInCredentials,
                                     email: e.target.value,
                                 })
+                            }
                             }
                             type="email"
                             className=" w-full px-3 py-2 focus:outline-none bg-violet-200 duration-300 focus:shadow-xl focus:shadow-violet-200 text-lg outline-violet-400 rounded-lg "
@@ -138,56 +155,60 @@ const Login = () => {
                         </h1>
                         <input
                             value={logInCredentials.password}
-                            onChange={(e) =>
+                            onChange={(e) =>{
+                                setError(initialError)
                                 setLogInCredentials({
                                     ...logInCredentials,
                                     password: e.target.value,
                                 })
-                            }
+                            }}
                             type="password"
                             className=" w-full px-3 py-2 focus:outline-none bg-violet-200 duration-300 focus:shadow-xl focus:shadow-violet-200 text-lg outline-violet-400 rounded-lg "
                         />
                     </div>
 
-                    <div className="w-full flex-box flex-col gap-3">
-                      {
-                        pathname == '/register' ? 
-
-                        <>
-                        
-                          <GradientButton
-                          text={"SignUp"}
-                          onClickHandler={handleRegister}
-                          />
-                          <h1 className=" text-lg ">
-                            Already a User?{" "}
-                            <Link
-                                to={"/login"}
-                                className=" font-bold text-violet-600 underline"
-                            >
-                                Login!
-                            </Link>
-                        </h1>
-                        </>
-
+                    {
+                        error.status == true? 
+                        <ErrorText text={error.message}/>
                         :
-                        <>
-                          <GradientButton
-                            text={"Login"}
-                            onClickHandler={handleLogin}
-                        />
-                          <h1 className=" text-lg ">
-                            New here?{" "}
-                            <Link
-                                to={"/register"}
-                                className=" font-bold text-violet-600 underline"
-                            >
-                                Sign Up
-                            </Link> for an account!
-                        </h1>
-                        </>
-                      }
-                      
+                        null
+                    }
+
+                    <div className="w-full flex-box flex-col gap-3">
+                        {pathname == "/register" ? (
+                            <>
+                                <GradientButton
+                                    text={"SignUp"}
+                                    onClickHandler={handleRegister}
+                                />
+                                <h1 className=" text-lg ">
+                                    Already a User?{" "}
+                                    <Link
+                                        to={"/login"}
+                                        className=" font-bold text-violet-600 underline"
+                                    >
+                                        Login!
+                                    </Link>
+                                </h1>
+                            </>
+                        ) : (
+                            <>
+                                <GradientButton
+                                    text={"Login"}
+                                    onClickHandler={handleLogin}
+                                />
+                                <h1 className=" text-lg ">
+                                    New here?{" "}
+                                    <Link
+                                        to={"/register"}
+                                        className=" font-bold text-violet-600 underline"
+                                    >
+                                        Sign Up
+                                    </Link>{" "}
+                                    for an account!
+                                </h1>
+                            </>
+                        )}
                     </div>
                 </Form>
             </div>
