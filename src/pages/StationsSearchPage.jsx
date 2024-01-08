@@ -1,12 +1,53 @@
-import React from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Form } from 'react-router-dom'
-import car from '/src/assets/nexon-ev.png'
 import blurBg from "/src/assets/gridbg.png";
 import { Search } from 'lucide-react'
 import SearchStationCard from '../components/SearchStationCard';
 
+import {useJsApiLoader, GoogleMap, StandaloneSearchBox} from '@react-google-maps/api';
+import mapStyle from '../utils/mapStyle';
+import { getStationByLocaion } from '../api/GET';
+import { Data } from '../context/DataContext';
+import { searchStationAction } from '../action/action';
 
 const StationsSearchPage = () => {
+
+  const locationNameRef = useRef('');
+
+  const [searchResult,setSearchResult] = useState(null);
+
+  const context = useContext(Data);
+
+  const {isLoaded} = useJsApiLoader({
+    googleMapsApiKey:"AIzaSyBQ0mIXZ7BR7KvXfMpS0hPx0LYnbhb6AKI",
+    libraries:["places"],
+    mapIds:["77e9b6d157be5f17"]
+  })
+
+  const location = {lat:18.526274, lng:73.845924}
+
+  const handleFormSubmit = async ()=>{
+
+    const searchLocation = locationNameRef.current.value;  
+
+    const res = await getStationByLocaion(searchLocation,localStorage.getItem('accessToken'));
+    
+    if(res.success){
+      console.log(res.stationData);
+      context.SEARCH_STATION_DISPATCH({type:searchStationAction.ADD_DATA,payload:res.stationData.data})
+    }
+    else{
+      console.log(res.message);
+    }
+  }
+  console.log(context.SEARCH_STATION);
+
+  if(!isLoaded){
+    return <div>Loading</div>
+    
+  }
+
+
   return (
     <section className='  w-full h-[100vh] overflow-hidden relative grid grid-cols-3 bg-[#f8f1ff]'>
 
@@ -17,11 +58,10 @@ const StationsSearchPage = () => {
           </div>
           <div className=' w-[85%] h-[100%]  overflow-y-scroll no-scrollbar border-red-500  gap-8 flex-box justify-start flex-col'>
 
-            {true ? <>
-              <SearchStationCard/>
-              <SearchStationCard/>
-              <SearchStationCard/>
-            </>
+            {context.SEARCH_STATION ?
+              context.SEARCH_STATION.map(stationData=>{
+                return <SearchStationCard stationData={stationData}/>
+              })
             :
             <div className=' text-2xl font-semibold mt-[50%]'>No Data</div>
             }
@@ -38,28 +78,42 @@ const StationsSearchPage = () => {
 
               <Form className='w-full flex-box  rounded-2xl'>
                 <div className=' w-full h-full flex-box  bg-violet-100 shadow-sm rounded-3xl overflow-hidden'>
-                  <input type="text" className=' w-[90%] bg-violet-100 h-14 text-2xl placeholder:text-xl focus:outline-none' placeholder='Search for a city...' />
-                    <button type='submit' className=' text-violet-700 '><Search /></button>
+                  <div className='w-[90%] bg-violet-100 h-14 text-2xl placeholder:text-xl focus:outline-none'>
+                    <StandaloneSearchBox>
+                      <input
+                        ref={locationNameRef} 
+                        type="text"
+                        className='w-[90%] bg-violet-100 h-14 text-xl placeholder:text-xl focus:outline-none ' 
+                        placeholder='Search for a Area...' />
+                    </StandaloneSearchBox>
+                  </div>
+
+                    <button type='submit' onClick={handleFormSubmit} className=' text-violet-700 '><Search /></button>
                 </div>
               </Form>
               <h1 className=' text-2xl font-bold self-start text-zinc-900'>Charger Type:</h1>
               <div className=' w-full justify-start flex-box gap-5'>
                 
-                <h1 className=' p-2 text-md font-semibold rounded-2xl border-2 border-violet-500'>
+                <button className=' p-2 text-md font-semibold rounded-2xl border-2 border-violet-500'>
                   Type A
-                </h1>
-                <h1 className=' p-2 text-md font-semibold rounded-2xl border-2 border-violet-500'>
+                </button>
+                <button className=' p-2 text-md font-semibold rounded-2xl border-2 border-violet-500'>
                   Type A
-                </h1>
-                <h1 className=' p-2 text-md font-semibold rounded-2xl border-2 border-violet-500'>
+                </button>
+                <button className=' p-2 text-md font-semibold rounded-2xl border-2 border-violet-500'>
                   Type A
-                </h1>
+                </button>
               </div>
             </div>
           </div>
 
           <div className=' w-3/4 mt-5 h-[60%] rounded-2xl overflow-hidden shadow-xl '>
-          <iframe className=' w-full h-full' src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15129.425879391305!2d73.78308580000001!3d18.55796105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bfc0622692c3%3A0xda2383df16f63d64!2sD%20Mart!5e0!3m2!1sen!2sin!4v1703688355126!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <GoogleMap 
+              center={location}
+              options={{styles:mapStyle,disableDefaultUI:true}} 
+              zoom={15} 
+              mapContainerStyle={{width:'100%',height:'100%'}}>
+            </GoogleMap>
           </div>
         </div>
 

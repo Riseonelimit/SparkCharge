@@ -14,8 +14,8 @@ const Station = () => {
 
     const currentDay = new Date().toLocaleDateString()
   return (
-    <section className=' w-full h-[100vh] flex-box flex-col justify-evenly  bg-[#f8f1ff]'>
-        <div className=' w-3/4 flex-box justify-between gap-2 p-5 mt-[2em]'>
+    <section className=' w-full h-[100vh] relative flex-box flex-col justify-evenly  bg-[#f8f1ff]'>
+        <div className=' w-3/4 flex-box justify-between gap-2 p-5 mt-[2em] z-10'>
             <div className='flex-box flex-col items-start'>
                 <div className=' inline-flex justify-center items-center gap-3'>
                     <Fuel className=' size-8' />
@@ -32,7 +32,7 @@ const Station = () => {
                 <SlotType text={"Type A BSW#"}/>
             </div>
         </div>
-        <div className=' w-3/4  flex-box justify-between gap-2 p-5 '>
+        <div className=' w-3/4  flex-box justify-between gap-2 p-5 z-10 '>
 
             <div className=' w-[70%]  flex-box flex-col gap-8 items-start'>
                 <div className=' flex-box flex-col gap-3 items-start'>
@@ -81,10 +81,10 @@ const Station = () => {
                 <img src={kadak} alt="" className=' w-full h-full object-cover' />
             </div>
         </div>
-        <div className='  w-3/4 h-[30%] flex-box gap-3 mt-10 justify-start'>
+        <div className='  w-3/4 h-[30%] flex-box gap-3 mt-10 justify-start z-10'>
             <div className=' p-7  justify-between h-full rounded-xl bg-[conic-gradient(at_right,_var(--tw-gradient-stops))] from-purple-300 to-violet-200 flex-box gap-10 shadow-md  shadow-violet-300'>
                 <div className=' h-full flex-box flex-col gap-3  items-start '>
-                    <h1 className=' text-5xl font-bold'>Tata Eco Station </h1>
+                    <h1 className=' text-5xl font-bold  bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-violet-600 via-violet-600 to-sky-600 shadow-inner  text-transparent bg-clip-text'>Tata Eco Station </h1>
                     <h1 className=' text-3xl font-semibold'>30 Dec</h1> 
                     <h1 className=' text-2xl font-semibold'>3 Am - 6 Am</h1>
                     <GradientButton text={"Proceed to Pay"}/>

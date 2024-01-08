@@ -12,5 +12,7 @@ export const userReducer = (prevState,action)=>{
     switch(action.type){
         case "logIn":
             return {...action.payload}
+        case "logOut":
+            return initialState
     }
 }

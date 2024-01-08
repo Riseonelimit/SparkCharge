@@ -4,7 +4,7 @@ import Navbar from './components/Navbar'
 import { Outlet, useLocation } from 'react-router-dom'
 import { authLogin } from './api/auth/auth'
 import { Data } from './context/DataContext'
-import { userAction } from './action/user_actions'
+import { userAction } from './action/action'
 
 function App() {
 

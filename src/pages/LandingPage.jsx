@@ -156,21 +156,21 @@ const LandingPage = () => {
 
                     </motion.div>
 
-                    <div className=" w-full relative overflow-hidden bg-violet-600  shadow-xl grid grid-cols-4 grid-rows-4 mt-[10rem] rounded-2xl">
-                        <div className=" shadow-xl bg-violet-800 col-span-1 gap-5 row-span-1 w-full flex-box  flex-col p-[1.5em]">
-                            <h1 className=" text-yellow-300 text-4xl font-semibold">Pune</h1>
+                <div className=" w-full relative overflow-hidden bg-violet-600 shadow-xl text-3xl grid grid-cols-4 grid-rows-4 mt-[10rem] rounded-2xl">
+                        <div className="z-10  bg-[#2c06794d] backdrop-blur-md  col-span-1 gap-5 row-span-1 w-full flex-box  flex-col p-[1.5em]">
+                            <h1 className=" text-violet-100 font-semibold">Pune</h1>
                         </div>
-                        <div className=" shadow-xl bg-violet-800 col-span-1 gap-5 row-span-1 w-full flex-box  flex-col p-[1.5em]">
-                            <h1 className=" text-yellow-300 text-4xl font-semibold">Pune</h1>
+                        <div className="z-10 shadow-xl bg-[#2c06794d] backdrop-blur-md rounded-b-2xl col-span-1 gap-5 row-span-1 w-full flex-box  flex-col p-[1.5em]">
+                            <h1 className=" text-violet-100 font-semibold">Mumbai</h1>
                         </div>
-                        <div className=" shadow-xl bg-violet-800 col-span-1 gap-5 row-span-2 w-full flex-box  flex-col p-[1.5em]">
-                            <h1 className=" text-yellow-300 text-4xl font-semibold">Pune</h1>
+                        <div className="z-10 shadow-xl bg-[#2c06794d] backdrop-blur-md rounded-b-2xl col-span-1 gap-5 row-span-2 w-full flex-box  flex-col p-[1.5em]">
+                            <h1 className=" text-violet-100 font-semibold">Satara</h1>
                         </div>
-                        <div className=" shadow-xl bg-violet-800 col-span-1 gap-5 row-span-1 w-full flex-box  flex-col p-[1.5em]">
-                            <h1 className=" text-yellow-300 text-4xl font-semibold">Pune</h1>
+                        <div className="z-10 shadow-xl bg-[#2c06794d] backdrop-blur-md rounded-b-2xl col-span-1 gap-5 row-span-1 w-full flex-box  flex-col p-[1.5em]">
+                            <h1 className=" text-violet-100 font-semibold">Delhi</h1>
                         </div>
-                        <div className=" shadow-xl bg-violet-800 col-span-1 gap-5 row-span-1 w-full flex-box  flex-col p-[1.5em]">
-                            <h1 className=" text-yellow-300 text-4xl font-semibold">Pune</h1>
+                        <div className="z-10 shadow-xl bg-[#2c06794d] backdrop-blur-md rounded-b-2xl col-span-1 gap-5 row-span-1 w-full flex-box  flex-col p-[1.5em]">
+                            <h1 className=" text-violet-100 font-semibold">Patna</h1>
                         </div>
                         <div className="z-10 w-full flex-box text-center  col-span-4 row-span-2 ">
                             <h1 className=" font-bold text-7xl text-white">CITIES WE EXIST</h1>
@@ -178,7 +178,7 @@ const LandingPage = () => {
                         <img
                     src={blob}
                     alt="background"
-                    className=" w-full h-full absolute top-[10%] opacity-55  left-[-40%]  "
+                    className=" w-full h-full object-cover absolute top-0 opacity-20  left-[0%]  "
                     draggable={false}
                 />
                     </div>
@@ -186,6 +186,9 @@ const LandingPage = () => {
                 </div>
 
                     
+            </div>
+            <div className=" w-full h-[100vh] test">
+
             </div>
         </section>
     );
