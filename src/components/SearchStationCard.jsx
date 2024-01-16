@@ -13,23 +13,17 @@ const SearchStationCard = ({stationData}) => {
                         <MapPin className=" size-5" />
                         <h1 className=" capitalize">{stationData.city.toLowerCase()}</h1>
                     </div>
-                    <GradientLink url={stationData._id} text={"Book Slot"} />
+                    <GradientLink url={stationData._id} text={"Book Slot"} state={stationData} />
                 </div>
-                <div className=" w-[30%]  flex-box flex-wrap justify-end gap-2">
-                    <h1 className=" p-2 rounded-xl text-sm font-bold bg-violet-100">
-                        TypeA
-                    </h1>
-                    <h1 className=" p-2 rounded-xl text-sm font-bold bg-violet-100">
-                        TypeA
-                    </h1>
-                    <h1 className=" p-2 rounded-xl text-sm font-bold bg-violet-100">
-                        TypeA
-                    </h1>
-                    <h1 className=" p-2 rounded-xl text-sm font-bold bg-violet-100">
-                        TypeA
-                    </h1>
+                <div className=" flex-box flex-col flex-wrap gap-2 text-md font-semibold justify-end">
+                    {
+                        stationData.availslottype.map(slotName=>{
+                            return <span className=" px-2 py-1  text-center rounded-md border-2 border-violet-600 ">{slotName}</span>
+                        })
+                    }
                 </div>
             </div>
+
 
             {/* TIME-SLOTS */}
             

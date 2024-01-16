@@ -16,6 +16,7 @@ node_modules
 !.vscode/extensions.json
 .idea
 .DS_Store
+scripts.sh
 *.suo
 *.ntvs*
 *.njsproj

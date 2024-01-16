@@ -28,7 +28,9 @@
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
     }
-
+    .flex-container{
+        @apply flex justify-center items-center flex-col
+    }
     /* TEST CLASSES */
     .test{
         @apply border-2 border-red-500
