@@ -9,6 +9,7 @@ import mapStyle from '../utils/mapStyle';
 import { getStationByLocaion } from '../api/GET';
 import { Data } from '../context/DataContext';
 import { searchStationAction } from '../action/action';
+import ProtectedRoute from '../components/utils/ProtectedRoute';
 
 const StationsSearchPage = () => {
 
@@ -33,14 +34,12 @@ const StationsSearchPage = () => {
     const res = await getStationByLocaion(searchLocation,localStorage.getItem('accessToken'));
     
     if(res.success){
-      console.log(res.stationData);
       context.SEARCH_STATION_DISPATCH({type:searchStationAction.ADD_DATA,payload:res.stationData.data})
     }
     else{
-      console.log(res.message);
+      // TODO: handle not response
     }
   }
-  console.log(context.SEARCH_STATION);
 
   if(!isLoaded){
     return <div>Loading</div>
@@ -49,7 +48,10 @@ const StationsSearchPage = () => {
 
 
   return (
-    <section className='  w-full h-[100vh] overflow-hidden relative grid grid-cols-3 bg-[#f8f1ff]'>
+    <ProtectedRoute>
+
+    
+    <section className='  w-full h-screen overflow-hidden relative grid grid-cols-3 bg-[#f8f1ff]'>
 
         <div className=' z-10 col-span-1 overflow-hidden border-green-500 w-full h-[90%] flex-box gap-5 justify-start flex-col mt-[5em]  '>
           <div className=' w-3/4 '>
@@ -125,6 +127,7 @@ const StationsSearchPage = () => {
                     draggable={false}
                 />
     </section>
+    </ProtectedRoute>
   )
 }
 

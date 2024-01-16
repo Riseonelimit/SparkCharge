@@ -1,11 +1,16 @@
 import React from 'react'
+import Button from './Button'
 
-const SlotType = ({text}) => {
+const SlotType = ({text,value,onClick,time}) => {
+
   return (
-    <h1 className=' p-2 text-sm text-center m-1 font-semibold rounded-xl col-span-1 border-2 border-violet-500'>
-        {text}
-    </h1>
+    <Button
+    text={text}
+    value={value}
+    onClick={onClick}
+    className={time == value ? " bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-violet-400 via-violet-600 to-sky-600 text-white" : ""}
+    />
   )
 }
 
-export default SlotType
+export default React.memo(SlotType)

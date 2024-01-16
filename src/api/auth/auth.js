@@ -48,6 +48,6 @@ export const authLogin = async(token)=>{
     });
 
     if(status == 200){
-        return data.data;
+        return data.data;   
     }
 }

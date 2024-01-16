@@ -8,6 +8,8 @@ import StationsSearchPage from './pages/StationsSearchPage.jsx'
 import Station from './pages/Station.jsx'
 import DataContext from './context/DataContext.jsx'
 import Login from './pages/Login.jsx'
+import UserProfile from './pages/UserProfile.jsx'
+import Payment from './pages/Payment.jsx'
 
 const router = createBrowserRouter([{
   path:'/',
@@ -26,9 +28,28 @@ const router = createBrowserRouter([{
       element:<Login/>
     },
     {
+      path:'payment/:station_slug',
+      element:<Payment/>
+    },
+    {
       path:'register',
       element:<Login/>
+    },
+    {
+      path:'profile',
+      element:<UserProfile/>,
+      children:[
+        {
+          path:'booking',
+          element:<Login/>
+        },
+        {
+          path:'vehicles',
+          element:<Login/>
+        }
+      ] 
     }
+    
   ]
 }])
 
