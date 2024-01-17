@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useCallback, useContext, useRef, useState } from 'react'
 import { Form } from 'react-router-dom'
 import blurBg from "/src/assets/gridbg.png";
 import { Search } from 'lucide-react'
@@ -6,7 +6,7 @@ import SearchStationCard from '../components/SearchStationCard';
 
 import {useJsApiLoader, GoogleMap, StandaloneSearchBox} from '@react-google-maps/api';
 import mapStyle from '../utils/mapStyle';
-import { getStationByLocaion } from '../api/GET';
+import { getLocation, getStationByLocation } from '../api/GET';
 import { Data } from '../context/DataContext';
 import { searchStationAction } from '../action/action';
 import ProtectedRoute from '../components/utils/ProtectedRoute';
@@ -15,30 +15,46 @@ const StationsSearchPage = () => {
 
   const locationNameRef = useRef('');
 
-  const [searchResult,setSearchResult] = useState(null);
-
+  const [location,setLocation] = useState({lat:18.5204303, lng:73.8567437});
+  const [map, setMap] = useState(null)
   const context = useContext(Data);
 
-  const {isLoaded} = useJsApiLoader({
+  const {extend,isLoaded} = useJsApiLoader({
     googleMapsApiKey:"AIzaSyBQ0mIXZ7BR7KvXfMpS0hPx0LYnbhb6AKI",
     libraries:["places"],
     mapIds:["77e9b6d157be5f17"]
   })
 
-  const location = {lat:18.526274, lng:73.845924}
+  const onLoad = useCallback(function callback(map) {
+    const bounds = new window.google.maps.LatLngBounds(location);
+    bounds.extend(location)
+    map.setZoom(15)
+    // map.fitBounds(bounds);
+    setMap(map)
+  }, [])
 
   const handleFormSubmit = async ()=>{
 
     const searchLocation = locationNameRef.current.value;  
 
-    const res = await getStationByLocaion(searchLocation,localStorage.getItem('accessToken'));
+    const res = await getStationByLocation(searchLocation,localStorage.getItem('accessToken'));
+    const {latLang} = await getLocation(searchLocation,'AIzaSyBQ0mIXZ7BR7KvXfMpS0hPx0LYnbhb6AKI');
     
-    if(res.success){
+    if(res.success){  
+      console.log(latLang);
+      // extend(latLang)
       context.SEARCH_STATION_DISPATCH({type:searchStationAction.ADD_DATA,payload:res.stationData.data})
     }
     else{
       // TODO: handle not response
+      context.SEARCH_STATION_DISPATCH({type:searchStationAction.RESET_DATA})
     }
+    setLocation(latLang)
+    const bounds = new window.google.maps.LatLngBounds(latLang);
+    var zoom = map.getZoom();
+    map.setZoom(zoom > 6 ? 6 : zoom);
+    bounds.extend(location)
+    map.fitBounds(bounds);
   }
 
   if(!isLoaded){
@@ -112,8 +128,9 @@ const StationsSearchPage = () => {
           <div className=' w-3/4 mt-5 h-[60%] rounded-2xl overflow-hidden shadow-xl '>
             <GoogleMap 
               center={location}
-              options={{styles:mapStyle,disableDefaultUI:true}} 
-              zoom={15} 
+              zoom={12} 
+              onLoad={onLoad}
+              options={{styles:mapStyle,disableDefaultUI:true,maxZoom:16}}
               mapContainerStyle={{width:'100%',height:'100%'}}>
             </GoogleMap>
           </div>
