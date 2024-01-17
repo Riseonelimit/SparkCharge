@@ -1,10 +1,7 @@
 import { CalendarDays, Clock4, Fuel, MapPin, Plug, PlugZap } from "lucide-react";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import SlotType from "../components/SlotType";
-import GradientButton from "../components/GradientButton";
 import Button from "../components/Button";
-import kadak from "/src/assets/kadak.gif";
-import { Data } from "../context/DataContext";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { getMonth, getTimeSlot } from "../utils/helper";
 import GradientLink from "../components/utils/GradientLink";
