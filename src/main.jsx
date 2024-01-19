@@ -10,6 +10,7 @@ import DataContext from './context/DataContext.jsx'
 import Login from './pages/Login.jsx'
 import UserProfile from './pages/UserProfile.jsx'
 import Payment from './pages/Payment.jsx'
+import UserBooking from './pages/UserBooking.jsx'
 
 const router = createBrowserRouter([{
   path:'/',
@@ -37,15 +38,14 @@ const router = createBrowserRouter([{
     },
     {
       path:'profile',
-      element:<UserProfile/>,
       children:[
         {
-          path:'booking',
-          element:<Login/>
+          path:'',
+          element:<UserProfile/>
         },
         {
-          path:'vehicles',
-          element:<Login/>
+          path:'booking',
+          element:<UserBooking/>
         }
       ] 
     }

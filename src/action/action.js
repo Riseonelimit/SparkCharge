@@ -3,6 +3,7 @@ export const userAction = {
     LOGGED_OUT:"logOut",
     SIGN_IN:"signIn",
     RE_AUTH:"reAuth",
+    UPDATE_VEHICLES:"updateVehicles"
 }
 export const searchStationAction = {
     ADD_DATA:"add",
