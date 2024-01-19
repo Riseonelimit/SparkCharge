@@ -24,3 +24,5 @@ scripts.sh
 *.sw?
 package-lock.json
 yarn.lock
+src/api/axios.js
+TODO.txt

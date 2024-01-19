@@ -46,7 +46,9 @@ const Navbar = () => {
                         <div className=' absolute flex-box  invisible opacity-0 flex-col gap-2 p-2 bg-violet-200 top-10 -right-5 text-violet-900 group-hover:visible group-hover:opacity-100 duration-300 text-md font-[600] rounded-xl'>
                             <Link to={'/profile'} className='flex-box justify-start w-full  gap-2 hover:text-violet-100 hover:bg-violet-400 p-3 duration-150 w-full rounded-xl'><User size={25} />Profile</Link>
                             <Link className='flex-box justify-start w-full  gap-2 hover:text-violet-100 hover:bg-violet-400 p-3 duration-150  rounded-xl'><Car size={25} />Vehicles</Link>
-                            <Link className='flex-box justify-start w-full  gap-2 hover:text-violet-100 hover:bg-violet-400 p-3 duration-150  rounded-xl'><ShoppingBag size={25} />Bookings</Link>
+                            <Link
+                                to={'/profile/booking'} 
+                                className='flex-box justify-start w-full  gap-2 hover:text-violet-100 hover:bg-violet-400 p-3 duration-150  rounded-xl'><ShoppingBag size={25} />Bookings</Link>
                             <button
                                 onClick={handleSignOut} 
                                 className='flex-box justify-start gap-2 hover:bg-red-500 hover:text-red-100 text-red-600 p-3 duration-150 w-full rounded-xl'><LogOut />SignOut

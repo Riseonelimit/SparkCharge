@@ -29,7 +29,6 @@ function App() {
     <section className=' w-full flex-box flex-col'>
       <Navbar />
       {pathname == '/'  ?  <LandingPage/>: <Outlet/>}
-      
     </section>
   )
 }
