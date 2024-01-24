@@ -24,8 +24,6 @@ export const register = async(loginInfo)=>{
 
         const {data,status} = await axiosInstance.post('/user/register',loginInfo);
         
-        console.log(status);
-        console.log(data);
         if(status != 200 && data.response.success == false){
             throw new Error(data);
         }
@@ -40,7 +38,6 @@ export const register = async(loginInfo)=>{
 
 export const authLogin = async(token)=>{
 
-    console.log(token);
     const {data,status} = await axiosInstance.get('/user/get-user',{
         headers:{
             "Authorization":`Bearer ${token}`

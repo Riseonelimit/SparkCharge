@@ -61,7 +61,6 @@ const Station = () => {
         setTime(e.target.value);
     };
 
-    
 
     return (
         <section className=" w-full h-[100vh] relative flex-box flex-col justify-evenly  bg-[#f8f1ff]">
@@ -246,7 +245,7 @@ const Station = () => {
                     <div className=" inline-flex gap-3">
                         <GradientLink
                             url={`/payment/${stationData._id}`}
-                            state={{ stationData, day, time, slotType }}
+                            state={{ stationData, day, time, slotType , amount: true ? "10000" : "6000" }}
                             text={"Proceed to Pay"}
                         />
                     </div>

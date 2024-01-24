@@ -9,16 +9,14 @@ export const makeBooking = async (bookingData)=>{
                 "Authorization":`Bearer ${localStorage.getItem('accessToken')}`
             }
         })
-        console.log(data);
-        if(status !== 201){
+        if(status !== 200){
         throw new Error(data)
         }
-        return {success:true,slotData:data.data};
+        return {success:true,orderID:data.data};
         
     }
-    catch(e){
-        
-        return {success:false,message:e.response.data.data};
+    catch(e){        
+        return {success:false,message:e};
     }
 }
 
@@ -32,7 +30,6 @@ export const addVehicle = async (vehicleData)=>{
                 "Authorization":`Bearer ${localStorage.getItem('accessToken')}`
             }
         })
-        console.log(data);
         if(status !== 201){
         throw new Error(data)
         }
@@ -41,6 +38,40 @@ export const addVehicle = async (vehicleData)=>{
     }
     catch(e){
         
+        return {success:false,message:e.response.data.data};
+    }
+}
+
+export const createOrder = async (orderData)=>{
+    try{
+        const {data, status} = await axiosInstance.post('/transaction/razorpayordergen',orderData,{
+            headers:{
+                "Authorization":`Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+        if(status != 200){
+            throw new Error(data)
+        }
+        return {sucess:true, response:data.data}
+    }
+    catch(e){
+        return {success:false,message:e.response.data.data};
+    }
+}
+
+export const verifyPayment = async (signatureData)=>{
+    try{
+        const {data, status} = await axiosInstance.post('/transaction/verifysignature',signatureData,{
+            headers:{
+                "Authorization":`Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+        if(status != 200){
+            throw new Error(data)
+        }
+        return {success:true, response:data.data}
+    }
+    catch(e){
         return {success:false,message:e.response.data.data};
     }
 }

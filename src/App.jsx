@@ -14,7 +14,7 @@ function App() {
 
   const auth = useCallback(async ()=>{
     const userData = await authLogin(localStorage.getItem("accessToken"))
-    console.log(userData);
+    // console.log(userData);
     context.USER_DATA_DISPATCH({
       type: userAction.LOGGED_IN,
       payload: userData,

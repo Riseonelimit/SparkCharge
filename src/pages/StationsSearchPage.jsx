@@ -9,11 +9,13 @@ import {
     GoogleMap,
     StandaloneSearchBox,
 } from "@react-google-maps/api";
+
 import mapStyle from "../utils/mapStyle";
 import { getLocation, getStationByLocation } from "../api/GET";
 import { Data } from "../context/DataContext";
 import { searchStationAction } from "../action/action";
 import ProtectedRoute from "../components/utils/ProtectedRoute";
+import Title from "../components/Title";
 
 const StationsSearchPage = () => {
     const locationNameRef = useRef("");
@@ -52,7 +54,6 @@ const StationsSearchPage = () => {
         );
 
         if (res.success) {
-            console.log(latLang);
             // extend(latLang)
             context.SEARCH_STATION_DISPATCH({
                 type: searchStationAction.ADD_DATA,
@@ -85,9 +86,7 @@ const StationsSearchPage = () => {
 
 
                     <div className=" w-3/4 ">
-                        <h1 className=" small-title text-violet-500 ">
-                            Stations
-                        </h1>
+                        <Title text={"Stations"}/>
                         <hr className=" w-full h-1 bg-violet-500 rounded-xl" />
                     </div>
 

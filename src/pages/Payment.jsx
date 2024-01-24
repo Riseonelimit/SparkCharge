@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ProtectedRoute from "../components/utils/ProtectedRoute";
 import { Link, useLocation } from "react-router-dom";
 import GradientButton from "../components/GradientButton";
 import { getMonth, getTimeSlot } from "../utils/helper";
-import { makeBooking } from "../api/POST";
+import { makeBooking, verifyPayment } from "../api/POST";
 import GradientLink from "../components/utils/GradientLink";
+import { Data } from "../context/DataContext";
+
+import electric from '/src/assets/electric.png';
 
 const Payment = () => {
     const [paymentStatus, setPaymentStatus] = useState("idle");
     const { state: data } = useLocation();
-    const {stationData,day,time,slotType} = data;
+    const {stationData, day, time, slotType, amount} = data;
 
-    const handlePayment = async ()=>{
+    const user = useContext(Data).USER_DATA;
+    const handlePayment = async (e)=>{
+        
         setPaymentStatus("pending")
         const bookingData = {
             stationName:stationData.station_name,
@@ -19,13 +24,49 @@ const Payment = () => {
             bookingDate:day.dayStamp,
             bookingTime:time,
             registrationNumber:"MH12KJ4562",
+            pickupndrop:true
         }
         const res = await makeBooking(bookingData)
-
-        if(res.success){
-            return setPaymentStatus("success")
+        if(!res.success){
+            return setPaymentStatus("error")
         }
+        var options = {
+            "key": "rzp_test_Z2d7JAMWZhvCKA", 
+            "amount":"10000",
+            "currency": "INR",
+            "name": "SparkCharge", //your business name
+            "description": "Booking Payment",
+            "image": electric,
+            "order_id": res.orderID, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": async function (response){
+                setPaymentStatus("pending")
+                // response.razorpay_payment_id
+                // response.razorpay_order_id
+                // response.razorpay_signature
+                const result = await verifyPayment(response);
+                if(result.success){
+                    setPaymentStatus("success")
+                }
+                else{
+                    setPaymentStatus('error')
+                }
+            },
+            "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+                "name": user.name, //your customer's name
+                "email": user.email, 
+                "contact": user.phone  //Provide the customer's phone number for better conversion rates 
+            },
+            "notes": {
+                "address": "SparkCharge Pune"
+            },
+            "theme": {
+                "color": "#8b5cf6"
+            }
+        };
+        var rzp1 = new Razorpay(options);
 
+        rzp1.open();
+        e.preventDefault();
         setPaymentStatus("error")
     }
     return (
@@ -70,10 +111,10 @@ const Payment = () => {
 
                             </div>
                             <p>
-                                Booking ID -{" "}
+                                {/* Booking ID -{" "}
                                 <Link className=" font-semibold">
                                     76a7def7a76eaff8
-                                </Link>
+                                </Link> */}
                             </p>
                             <GradientLink url={'/'} replace={true} text={"Redirect to Home"}/>
                         </>
@@ -88,8 +129,8 @@ const Payment = () => {
                     ) : null
                     }
                 </div>
-
-                <GradientButton
+                
+                <GradientButton 
                     text={"Make Payment"}
                     onClickHandler={handlePayment}
                     className={`disabled:bg-slate-500 text-white ${ paymentStatus == "success" || paymentStatus == "error" ? " hidden" : " inline"}`}

@@ -3,7 +3,6 @@ import { axiosInstance } from "./axios";
 export const getStationByLocation = async(locationData,token)=>{
     
     try{
-        console.log(token);
         const {data,status} = await axiosInstance.get('/station/locate-station',{
             headers:{
                 "Authorization":`Bearer ${token}`
@@ -39,7 +38,7 @@ export const getLocation = async(locationData,key)=>{
         return {success:true,latLang:data.results[0].geometry.location};
     }
     catch(e){
-        return {success:false,message:e.response.data.data}
+        return {success:false,message:e}
     }
 }
 
@@ -57,7 +56,6 @@ export const getSlotData = async(stationName)=>{
         return {success:true,slotData:data};
     }
     catch(e){
-        console.log(e);
         return {success:false,message:e.response.data.data}
     }
 }
@@ -71,7 +69,6 @@ export const getUserVehicle = async()=>{
                 "Authorization":`Bearer ${localStorage.getItem('accessToken')}`
             }
         })
-        console.log(data);
         if( status != 200){
             throw new Error(data)
         }
@@ -91,7 +88,6 @@ export const getUserBookings = async()=>{
                 "Authorization":`Bearer ${localStorage.getItem('accessToken')}`
             }
         })
-        console.log(data);
         if( status != 200){
             throw new Error(data)
         }
