@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import ProtectedRoute from "../components/utils/ProtectedRoute";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import GradientButton from "../components/GradientButton";
 import { getMonth, getTimeSlot } from "../utils/helper";
 import { makeBooking, verifyPayment } from "../api/POST";
@@ -31,8 +31,7 @@ const Payment = () => {
             return setPaymentStatus("error")
         }
         var options = {
-            "key": "rzp_test_Z2d7JAMWZhvCKA", 
-            "amount":"10000",
+            "key": "rzp_test_Z2d7JAMWZhvCKA",
             "currency": "INR",
             "name": "SparkCharge", //your business name
             "description": "Booking Payment",
@@ -90,7 +89,7 @@ const Payment = () => {
                     {/* <hr className=' outline-none h-full w-[2px] border-none rounded-full bg-violet-800'/> */}
                     <div className=" p-10 h-full flex-box rounded-2xl bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-violet-400 via-violet-600 to-indigo-400 shadow-lg shadow-violet-500">
                         <h1 className=" small-title text-7xl text-white">
-                            300 Rs
+                            {Math.round(amount/100)} Rs
                         </h1>
                     </div>
                 </div>
