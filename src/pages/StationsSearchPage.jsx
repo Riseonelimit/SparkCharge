@@ -32,7 +32,7 @@ const StationsSearchPage = () => {
     const context = useContext(Data);
 
     const { extend, isLoaded } = useJsApiLoader({
-        googleMapsApiKey: import.meta.env.VITE_API_BASE_URL,
+        googleMapsApiKey: "AIzaSyBsbie82f46qsuAybbYZZynd8XWkr9iCN0",
         libraries: ["places"],
         mapIds: ["77e9b6d157be5f17"],
     });
@@ -54,7 +54,7 @@ const StationsSearchPage = () => {
         );
         const { latLang } = await getLocation(
             searchLocation,
-            import.meta.env.VITE_API_BASE_URL
+            "AIzaSyBsbie82f46qsuAybbYZZynd8XWkr9iCN0"
         );
 
         if (res.success) {
@@ -69,10 +69,12 @@ const StationsSearchPage = () => {
                 type: searchStationAction.RESET_DATA,
             });
         }
+        console.log({latLang});
         const bounds = new window.google.maps.LatLngBounds(latLang);
+        console.log({bounds});
         setLocation(latLang);
         var zoom = map.getZoom();
-        map.setZoom(zoom < 10 ? 10 : zoom);
+        map.setZoom(zoom < 5 ? 11 : zoom);
         bounds.extend(location);
         map.fitBounds(bounds);
     };
