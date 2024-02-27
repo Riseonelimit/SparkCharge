@@ -12,6 +12,7 @@ import AnimatedWordText from "../components/framer-motion/AnimatedWordText";
 import Button from "../components/Button";
 import GradientButton from "../components/GradientButton";
 import { Car, TimerOff, Zap } from "lucide-react";
+import Footer from "../components/Footer";
 
 const LandingPage = () => {
 
@@ -118,7 +119,7 @@ const LandingPage = () => {
             </div>
             {/* ABOUT END*/}
 
-            <div className=" w-full flex-box flex-col justify-start bg-[#f8f1ff] relative ">
+            <div className=" w-full flex-box flex-col justify-start bg-[#f8f1ff] relative pb-[10rem] ">
                 <div className=" z-10 w-3/4 h-full flex-box justify-evenly flex-col ">
 
                     <motion.div initial={{opacity:0,y:200,x:30,clipPath: "inset(0% 100% 0% 0%)"}} whileInView={{opacity:1,y:0,x:0,clipPath: "inset(0% 0% 0% 0%)"}} transition={{delay:0.5,duration:1.5,type:"spring"}} className=" w-3/4 z-20  flex-box flex-col gap-2  mt-[10rem] ">
@@ -187,9 +188,7 @@ const LandingPage = () => {
 
                     
             </div>
-            <div className=" w-full h-[100vh] test">
-
-            </div>
+            <Footer></Footer>
         </section>
     );
 };
