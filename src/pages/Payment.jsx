@@ -115,7 +115,7 @@ const Payment = () => {
                                     76a7def7a76eaff8
                                 </Link> */}
                             </p>
-                            <GradientLink url={'/'} replace={true} text={"Redirect to Home"}/>
+                            <GradientLink url={'/profile/booking'} replace={true} text={"Go to Booking"}/>
                         </>
                     ) :  paymentStatus == "error" ? (
                         <>

@@ -9,6 +9,8 @@ import { getSlotData } from "../api/GET";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import mapStyle from "../utils/mapStyle";
 
+import grid from '../assets/test.svg'
+
 const Station = () => {
 
 
@@ -97,7 +99,7 @@ const Station = () => {
                     ></GoogleMap> */}
                 </div>
             </div>
-            <div className=" w-3/5  flex-box justify-between gap-2 p-5 z-10 ">
+            <div className=" w-3/5  flex-box justify-between gap-2 p-10 z-10 backdrop-blur-sm bg-white/40 rounded-2xl ">
                 <div className=" w-[70%]  flex-box flex-col gap-8 items-start">
                     <div className=" flex-box flex-col gap-3 items-start">
                         <h1 className=" small-title text-2xl inline-flex items-center justify-center gap-2">
@@ -251,6 +253,14 @@ const Station = () => {
                     </div>
                 </div>
             </div>
+
+            
+            <img
+                    src={grid}
+                    alt="background"
+                    className=" w-full h-full object-cover absolute top-0 "
+                    draggable={false}
+                />
         </section>
     );
     };

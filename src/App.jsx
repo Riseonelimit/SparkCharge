@@ -1,3 +1,4 @@
+// import 'dotenv/config'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import LandingPage from './pages/LandingPage'
 import Navbar from './components/Navbar'
@@ -5,6 +6,8 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { authLogin } from './api/auth/auth'
 import { Data } from './context/DataContext'
 import { userAction } from './action/action'
+
+
 
 function App() {
 
