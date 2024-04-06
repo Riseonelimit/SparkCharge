@@ -20,17 +20,18 @@ export const login = async(loginInfo)=>{
 
 export const register = async(loginInfo)=>{
     
-    try{
-
-        const {data,status} = await axiosInstance.post('/user/register',loginInfo);
-        
-        if (data.response.success == false) {
-            throw new Error(data);
+    try {
+        const { data, status } = await axiosInstance.post(
+            "/user/register",
+            loginInfo
+        );
+        if (status >= 400) {
+            throw new Error(data.data);
         }
-        return {success:true,userData:data};
-    }
-    catch(e){
-        return {success:false,message:e.response.data}
+        console.log(data);
+        return { success: true, userData: data.data };
+    } catch (e) {
+        return { success: false, message: e.response.data };
     }
 }
 
