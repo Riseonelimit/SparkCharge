@@ -65,7 +65,7 @@ const Station = () => {
 
 
     return (
-        <section className=" w-full h-[100vh] relative flex-box flex-col justify-evenly  bg-[#f8f1ff]">
+        <section className=" w-full h-[100vh] relative flex-box flex-col justify-evenly overflow-hidden  bg-[#f8f1ff]">
             <div className=" w-3/5 flex-box justify-between gap-2 p-5 mt-[2em] z-10">
                 <div className="flex-box flex-col items-start">
                     <div className=" inline-flex justify-center items-center gap-3">
@@ -99,7 +99,7 @@ const Station = () => {
                     ></GoogleMap> */}
                 </div>
             </div>
-            <div className=" w-3/5  flex-box justify-between gap-2 p-10 z-10 backdrop-blur-sm bg-white/40 rounded-2xl ">
+            <div className=" w-3/5  flex-box justify-between gap-2 p-10 z-10 backdrop-blur-md bg-white/40 rounded-2xl ">
                 <div className=" w-[70%]  flex-box flex-col gap-8 items-start">
                     <div className=" flex-box flex-col gap-3 items-start">
                         <h1 className=" small-title text-2xl inline-flex items-center justify-center gap-2">
@@ -222,7 +222,8 @@ const Station = () => {
                                 <Clock4 />
                                 Avaliable Time Slots
                             </h1>
-                            <div className=" w-full flex-box justify-start flex-wrap gap-2">
+                            {/* TODO: Change to Grid Layout */}
+                            <div className=" w-full test flex-box justify-start flex-wrap gap-2">
                                 {slotData
                                     .filter((e) => e._id == slotType?.slotID)
                                     .map((e) => {
@@ -247,20 +248,25 @@ const Station = () => {
                     <div className=" inline-flex gap-3">
                         <GradientLink
                             url={`/payment/${stationData._id}`}
-                            state={{ stationData, day, time, slotType , amount: true ? "10000" : "6000" }}
+                            state={{
+                                stationData,
+                                day,
+                                time,
+                                slotType,
+                                amount: true ? "10000" : "6000",
+                            }}
                             text={"Proceed to Pay"}
                         />
                     </div>
                 </div>
             </div>
 
-            
             <img
-                    src={grid}
-                    alt="background"
-                    className=" w-full h-full object-cover absolute top-0 "
-                    draggable={false}
-                />
+                src={grid}
+                alt="background"
+                className=" w-full h-full object-cover absolute top-[15%] "
+                draggable={false}
+            />
         </section>
     );
     };

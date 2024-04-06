@@ -24,15 +24,13 @@ export const register = async(loginInfo)=>{
 
         const {data,status} = await axiosInstance.post('/user/register',loginInfo);
         
-        if(status != 200 && data.response.success == false){
+        if (data.response.success == false) {
             throw new Error(data);
         }
-        if(status == 201){
-            return {success:true,userData:data};
-        }
+        return {success:true,userData:data};
     }
     catch(e){
-        return {success:false,message:e.response.data.data}
+        return {success:false,message:e.response.data}
     }
 }
 

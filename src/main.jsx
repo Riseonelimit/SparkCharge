@@ -11,47 +11,53 @@ import Login from './pages/Login.jsx'
 import UserProfile from './pages/UserProfile.jsx'
 import Payment from './pages/Payment.jsx'
 import UserBooking from './pages/UserBooking.jsx'
+import ProtectedRoute from "./components/utils/ProtectedRoute.jsx";
 
-const router = createBrowserRouter([{
-  path:'/',
-  element:<App/>,
-  children:[
+const router = createBrowserRouter([
     {
-      path:'stations',
-      element:<StationsSearchPage/>
+        path: "/",
+        element: <App />,
+        children: [
+            {
+                path: "stations",
+                element: (
+                    <ProtectedRoute>
+                        <StationsSearchPage />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "stations/:station_slug",
+                element: <Station />,
+            },
+            {
+                path: "login",
+                element: <Login />,
+            },
+            {
+                path: "payment/:station_slug",
+                element: <Payment />,
+            },
+            {
+                path: "register",
+                element: <Login />,
+            },
+            {
+                path: "profile",
+                children: [
+                    {
+                        path: "",
+                        element: <UserProfile />,
+                    },
+                    {
+                        path: "booking",
+                        element: <UserBooking />,
+                    },
+                ],
+            },
+        ],
     },
-    {
-      path:'stations/:station_slug',
-      element:<Station/>
-    },
-    {
-      path:'login',
-      element:<Login/>
-    },
-    {
-      path:'payment/:station_slug',
-      element:<Payment/>
-    },
-    {
-      path:'register',
-      element:<Login/>
-    },
-    {
-      path:'profile',
-      children:[
-        {
-          path:'',
-          element:<UserProfile/>
-        },
-        {
-          path:'booking',
-          element:<UserBooking/>
-        }
-      ] 
-    }
-    
-  ]
-}])
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
