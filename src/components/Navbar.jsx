@@ -1,19 +1,11 @@
-import React, { useContext } from "react";
 import { motion } from "framer-motion";
-import {
-    Link,
-    NavLink,
-    useLocation,
-    useNavigate,
-    useParams,
-} from "react-router-dom";
+import { LogOut, ShoppingBag, User } from "lucide-react";
+import { useContext } from "react";
 import { useInView } from "react-intersection-observer";
-import GradientButton from "./GradientButton";
-import axios from "axios";
-import { Data } from "../context/DataContext";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { userAction } from "../action/action";
+import { Data } from "../context/DataContext";
 import GradientLink from "./utils/GradientLink";
-import { Car, LogOut, ShoppingBag, User } from "lucide-react";
 
 import electric from "/src/assets/electric.png";
 
