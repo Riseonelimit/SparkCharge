@@ -25,13 +25,14 @@ export const register = async(loginInfo)=>{
             "/user/register",
             loginInfo
         );
-        if (status >= 400) {
-            throw new Error(data.data);
+        console.log(status);
+        if (status != 201) {
+            throw new Error(data);
         }
         console.log(data);
         return { success: true, userData: data.data };
     } catch (e) {
-        return { success: false, message: e.response.data };
+        return { success: false, message: e.response.data.data };
     }
 }
 
