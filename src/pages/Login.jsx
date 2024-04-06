@@ -34,22 +34,27 @@ const Login = () => {
         setError(initialError)
         setLogInCredentials(initialLoginInCredentials)
     },[pathname])
+    
     const handleLogin = async (e) => {
         e.preventDefault();
 
         const loginResponse = await login(logInCredentials);
 
-        if(loginResponse.success == false){
-            return setError({status:true,message:loginResponse.message});
+        if (loginResponse.success == false) {
+            context.setLoading(false);
+            return setError({ status: true, message: loginResponse.message });
         }
 
-        localStorage.setItem("accessToken", loginResponse.userData["accessToken"]);
+        localStorage.setItem(
+            "accessToken",
+            loginResponse.userData["accessToken"]
+        );
 
         context.USER_DATA_DISPATCH({
             type: userAction.LOGGED_IN,
             payload: loginResponse.userData["user"],
         });
-
+        context.setLoading(false);
         return navigate("/stations", { replace: true });
     };
 
@@ -57,16 +62,20 @@ const Login = () => {
         e.preventDefault();
 
         const registerResponse = await register(logInCredentials);
-
-        if(registerResponse.success == false){
-            return setError({status:true,message:registerResponse.message})
+        console.log({ registerResponse });
+        if (registerResponse.success == false) {
+            context.setLoading(false);
+            return setError({
+                status: true,
+                message: registerResponse.message.data,
+            });
         }
 
         context.USER_DATA_DISPATCH({
             type: userAction.LOGGED_IN,
             payload: registerResponse.userData["data"],
         });
-
+        context.setLoading(false);
         return navigate("/stations", { replace: true });
     };
 

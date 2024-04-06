@@ -19,9 +19,10 @@ function App() {
     const userData = await authLogin(localStorage.getItem("accessToken"))
     // console.log(userData);
     context.USER_DATA_DISPATCH({
-      type: userAction.LOGGED_IN,
-      payload: userData,
-  });
+        type: userAction.LOGGED_IN,
+        payload: userData,
+    });
+    context.setLoading(false);
   })
 
   useEffect(()=>{
