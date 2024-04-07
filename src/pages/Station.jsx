@@ -223,6 +223,7 @@ const Station = () => {
                                 Avaliable Time Slots
                             </h1>
                             {/* TODO: Change to Grid Layout */}
+                            <div className=" w-full test justify-start flex-wrap gap-2">
                                 {slotData
                                     .filter((e) => e._id == slotType?.slotID)
                                     .map((e) => {
@@ -240,6 +241,7 @@ const Station = () => {
                                             );
                                         });
                                     })}
+                            </div>
                         </div>
                     )}
 
