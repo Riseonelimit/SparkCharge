@@ -32,7 +32,7 @@
         @apply flex justify-center items-center flex-col
     }
     /* TEST CLASSES */
-    .test{
+    /* .test{
         @apply border-2 border-red-500
-    }
+    } */
 }
