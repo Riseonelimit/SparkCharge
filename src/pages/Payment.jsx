@@ -12,7 +12,15 @@ import electric from "/src/assets/electric.png";
 const Payment = () => {
     const [paymentStatus, setPaymentStatus] = useState("idle");
     const { state: data } = useLocation();
-    const { stationData, day, time, slotType, amount } = data;
+    const {
+        stationData,
+        day,
+        time,
+        slotType,
+        selectedVehicle,
+        isPickUp,
+        amount,
+    } = data;
 
     const user = useContext(Data).USER_DATA;
     const handlePayment = async (e) => {
@@ -22,8 +30,8 @@ const Payment = () => {
             slotType: slotType.slotType,
             bookingDate: day.dayStamp,
             bookingTime: time,
-            registrationNumber: "MH12KJ4562",
-            pickupndrop: true,
+            registrationNumber: selectedVehicle,
+            pickupndrop: isPickUp,
         };
         const res = await makeBooking(bookingData);
         if (!res.success) {
@@ -32,27 +40,23 @@ const Payment = () => {
         var options = {
             key: import.meta.env.VITE_RAZOR_KEY,
             currency: "INR",
-            name: "SparkCharge", //your business name
+            name: "SparkCharge",
             description: "Booking Payment",
             image: electric,
-            order_id: res.orderID, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            order_id: res.orderID,
             handler: async function (response) {
                 setPaymentStatus("pending");
-                // response.razorpay_payment_id
-                // response.razorpay_order_id
-                // response.razorpay_signature
                 const result = await verifyPayment(response);
                 if (result.success) {
-                    setPaymentStatus("success");
+                    return setPaymentStatus("success");
                 } else {
-                    setPaymentStatus("error");
+                    return setPaymentStatus("error");
                 }
             },
             prefill: {
-                //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
-                name: user.name, //your customer's name
+                name: user.name,
                 email: user.email,
-                contact: user.phone, //Provide the customer's phone number for better conversion rates
+                contact: user.phone,
             },
             notes: {
                 address: "SparkCharge Pune",
@@ -81,9 +85,17 @@ const Payment = () => {
                         <h1 className=" text-3xl font-semibold">
                             {slotType.slotType}
                         </h1>
+                        <h1 className=" text-3xl font-semibold">
+                            {selectedVehicle}
+                        </h1>
                         <h1 className=" text-2xl font-semibold">
                             {getTimeSlot(time)}
                         </h1>
+                        {isPickUp ? (
+                            <h1 className=" text-md font-semibold rounded-xl bg-lime-200 p-2">
+                                PickUp And Drop
+                            </h1>
+                        ) : null}
                     </div>
                     {/* <hr className=' outline-none h-full w-[2px] border-none rounded-full bg-violet-800'/> */}
                     <div className=" p-10 h-full flex-box rounded-2xl bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-violet-400 via-violet-600 to-indigo-400 shadow-lg shadow-violet-500">
