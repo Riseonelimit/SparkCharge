@@ -1,19 +1,15 @@
-import { CalendarDays, Clock4, Fuel, MapPin, Plug, PlugZap } from "lucide-react";
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
-import SlotType from "../components/SlotType";
+import { CalendarDays, Clock4, Fuel, Car, MapPin, Plug } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { getSlotData, getUserVehicle } from "../api/GET";
 import Button from "../components/Button";
-import { Link, useLocation, useParams } from "react-router-dom";
-import { getMonth, getTimeSlot } from "../utils/helper";
+import SlotType from "../components/SlotType";
 import GradientLink from "../components/utils/GradientLink";
-import { getSlotData } from "../api/GET";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import mapStyle from "../utils/mapStyle";
+import { getMonth, getTimeSlot } from "../utils/helper";
 
-import grid from '../assets/test.svg'
+import grid from "../assets/test.svg";
 
 const Station = () => {
-
-
     const day1 = useRef(new Date());
     const day2 = useRef(new Date());
     day2.current.setDate(day1.current.getDate() + 1);
@@ -27,42 +23,31 @@ const Station = () => {
         month: "",
     });
 
-    const [slotType,setSlotType] = useState(null)
+    const [slotType, setSlotType] = useState(null);
+    const [selectedVehicle, setSelectedVehicle] = useState([]);
     const [time, setTime] = useState(null);
 
     const { state: stationData } = useLocation();
-    
-    const [slotData,setSlotData] = useState([]);
+    const [isPickUp, setIsPickUp] = useState(false);
 
-    // const { extend, isLoaded } = useJsApiLoader({
-    //     googleMapsApiKey: "AIzaSyBQ0mIXZ7BR7KvXfMpS0hPx0LYnbhb6AKI",
-    //     libraries: ["places"],
-    //     mapIds: ["77e9b6d157be5f17"],
-    // });
+    const [vehicle, setVehicle] = useState([]);
+    const [slotData, setSlotData] = useState([]);
 
-    // const onLoad = useCallback(function callback(map) {
-
-    //     const bounds = new window.google.maps.LatLngBounds(location);
-    //     bounds.extend(location);
-    //     map.setZoom(15);
-    //     // map.fitBounds(bounds);
-    //     setMap(map);
-    // }, []);
-
-    useEffect(()=>{
-        const fetchSlotData = async ()=>{
-            const res = await getSlotData(stationData.station_name)
-            if(res.success){
-                setSlotData(res.slotData.data)
+    useEffect(() => {
+        const fetchSlotData = async () => {
+            const res = await getSlotData(stationData.station_name);
+            const vehicleResponse = await getUserVehicle();
+            if (res.success && vehicleResponse.success) {
+                setSlotData(res.slotData.data);
+                setVehicle(vehicleResponse.vehicles);
             }
-        }
-        fetchSlotData()
-    },[])
-    
+        };
+        fetchSlotData();
+    }, []);
+
     const handleSlotBtnClick = (e) => {
         setTime(e.target.value);
     };
-
 
     return (
         <section className=" w-full h-[100vh] relative flex-box flex-col justify-evenly overflow-hidden  bg-[#f8f1ff]">
@@ -81,23 +66,7 @@ const Station = () => {
                         </h1>
                     </div>
                 </div>
-                <div className=" w-[20%] grid grid-cols-2 gap-3 font-semibold ">
-                    {/* <GoogleMap
-                        center={location}
-                        zoom={12}
-                        onLoad={onLoad}
-                        options={{
-                            styles: mapStyle,
-                            disableDefaultUI: true,
-                            maxZoom: 16,
-                            minZoom: 7,
-                        }}
-                        mapContainerStyle={{
-                            width: "100%",
-                            height: "100%",
-                        }}
-                    ></GoogleMap> */}
-                </div>
+                <div className=" w-[20%] grid grid-cols-2 gap-3 font-semibold "></div>
             </div>
             <div className=" w-3/5  flex-box justify-between gap-2 p-10 z-10 backdrop-blur-md bg-white/40 rounded-2xl ">
                 <div className=" w-[70%]  flex-box flex-col gap-8 items-start">
@@ -216,14 +185,49 @@ const Station = () => {
                         </div>
                     </div>
 
+                    <div className=" flex-box flex-col gap-3 items-start">
+                        <h1 className=" small-title text-2xl inline-flex items-center justify-center gap-2">
+                            <Car size={30} />
+                            Select Vehicle
+                        </h1>
+                        <select
+                            onChange={(e) => setSelectedVehicle(e.target.value)}
+                            className="w-full p-2 rounded-lg border-2 border-violet-700 bg-transparent "
+                        >
+                            {vehicle && vehicle.length > 0
+                                ? vehicle.map((vehicle) => (
+                                      <option
+                                          className=" bg-violet-200"
+                                          value={vehicle.registrationNumber}
+                                      >
+                                          {vehicle.registrationNumber}
+                                      </option>
+                                  ))
+                                : null}
+                        </select>
+                    </div>
+
+                    <div className=" flex-box  gap-3 ">
+                        <h1 className="small-title text-lg inline-flex items-center justify-center gap-2">
+                            PickUp And Drop? (Additional 100rs)
+                        </h1>
+
+                        <input
+                            type="checkbox"
+                            onChange={(e) =>
+                                setIsPickUp(e.target.checked ? true : false)
+                            }
+                            className=" size-6 accent-violet-500 bg-violet-300"
+                        />
+                    </div>
                     {day.day == null && slotType == null ? null : (
                         <div className=" flex-box flex-col gap-3 items-start">
                             <h1 className=" small-title text-2xl inline-flex items-center justify-center gap-2">
                                 <Clock4 />
-                                Avaliable Time Slots
+                                Available Time Slots
                             </h1>
                             {/* TODO: Change to Grid Layout */}
-                            <div className=" w-full test flex-box justify-start flex-wrap gap-2">
+                            <div className=" w-full  flex-box justify-start flex-wrap gap-2">
                                 {slotData
                                     .filter((e) => e._id == slotType?.slotID)
                                     .map((e) => {
@@ -253,7 +257,9 @@ const Station = () => {
                                 day,
                                 time,
                                 slotType,
-                                amount: true ? "10000" : "6000",
+                                selectedVehicle,
+                                isPickUp,
+                                amount: isPickUp ? "30000" : "20000",
                             }}
                             text={"Proceed to Pay"}
                         />
@@ -269,6 +275,6 @@ const Station = () => {
             />
         </section>
     );
-    };
+};
 
 export default React.memo(Station);

@@ -53,6 +53,7 @@ const UserBooking = () => {
 export default UserBooking
 
 const BookingCard = ({bookingData})=>{
+    console.log(bookingData);
     return (
         <div className=" flex-box flex-col relative rounded-xl  text-white bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-violet-500 via-indigo-500 to-purple-600 shadow-lg group">
             <div className="flex-box px-3 py-5 rounded-md gap-3">
@@ -76,7 +77,13 @@ const BookingCard = ({bookingData})=>{
                         {getTimeSlot(bookingData?.bookingTime)}
                     </h1>
                 </div>
-                <div className=" flex-box justify-between w-full"></div>
+                <div className=" flex-box justify-start w-full">
+                    {bookingData.pickUpNDrop ? (
+                        <h1 className=" text-md font-semibold rounded-xl bg-lime-200 p-2">
+                            PickUp And Drop
+                        </h1>
+                    ) : null}
+                </div>
             </div>
             <button className=" px-3 py-2 bottom-3  hover:text-white font-semibold rounded-md absolute text-sm bg-red-500 duration-300 ">
                 Cancel Booking
