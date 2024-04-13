@@ -40,6 +40,9 @@ const Station = () => {
             if (res.success && vehicleResponse.success) {
                 setSlotData(res.slotData.data);
                 setVehicle(vehicleResponse.vehicles);
+                setSelectedVehicle(
+                    vehicleResponse.vehicles[0].registrationNumber
+                );
             }
         };
         fetchSlotData();
