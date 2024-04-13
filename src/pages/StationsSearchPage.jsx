@@ -3,11 +3,14 @@ import { Form } from "react-router-dom";
 import blurBg from "/src/assets/gridbg.png";
 import { Search } from "lucide-react";
 import SearchStationCard from "../components/SearchStationCard";
+import electric from "/src/assets/marker-icon.png";
 
 import {
     useJsApiLoader,
     GoogleMap,
     StandaloneSearchBox,
+    MarkerF,
+    InfoWindowF,
 } from "@react-google-maps/api";
 
 import mapStyle from "../utils/mapStyle";
@@ -16,18 +19,28 @@ import { Data } from "../context/DataContext";
 import { searchStationAction } from "../action/action";
 import ProtectedRoute from "../components/utils/ProtectedRoute";
 import Title from "../components/Title";
+import { markers } from "../utils/markers";
 // import dotenv from "dotenv"
 
 // dotenv.config()
 
-
 const StationsSearchPage = () => {
+    const [activeMarker, setActiveMarker] = useState(null);
+
     const locationNameRef = useRef("");
 
     const [location, setLocation] = useState({
         lat: 18.5204303,
         lng: 73.8567437,
     });
+
+    const handleActiveMarker = (marker) => {
+        if (marker === activeMarker) {
+            return;
+        }
+        setActiveMarker(marker);
+    };
+
     const [map, setMap] = useState(null);
     const context = useContext(Data);
 
@@ -160,7 +173,33 @@ const StationsSearchPage = () => {
                             width: "100%",
                             height: "100%",
                         }}
-                    ></GoogleMap>
+                    >
+                        {markers.map(({ id, name, position }) => (
+                            <MarkerF
+                                key={id}
+                                position={position}
+                                onClick={() => {
+                                    map.setZoom(14);
+                                    setLocation(position);
+                                    bounds.extend(location);
+                                }}
+                                onMouseOver={() => handleActiveMarker(id)}
+                                icon={electric}
+                            >
+                                {activeMarker === id ? (
+                                    <InfoWindowF
+                                        onCloseClick={() =>
+                                            setActiveMarker(null)
+                                        }
+                                    >
+                                        <div>
+                                            <p>{name}</p>
+                                        </div>
+                                    </InfoWindowF>
+                                ) : null}
+                            </MarkerF>
+                        ))}
+                    </GoogleMap>
                 </div>
             </div>
 
