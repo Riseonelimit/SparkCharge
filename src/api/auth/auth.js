@@ -37,14 +37,17 @@ export const register = async(loginInfo)=>{
 }
 
 export const authLogin = async(token)=>{
+    try {
+        const { data, status } = await axiosInstance.get("/user/get-user", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-    const {data,status} = await axiosInstance.get('/user/get-user',{
-        headers:{
-            "Authorization":`Bearer ${token}`
+        if (status == 200) {
+            return data.data;
         }
-    });
-
-    if(status == 200){
-        return data.data;   
+    } catch (e) {
+        return { success: false, message: e.response.data.data };
     }
 }
