@@ -89,7 +89,11 @@ const StationsSearchPage = () => {
     };
 
     if (!isLoaded) {
-        return <div>Loading</div>;
+        return (
+            <div className="flex items-center justify-center text-5xl w-full h-screen">
+                Loading
+            </div>
+        );
     }
 
     return (

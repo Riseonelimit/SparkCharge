@@ -49,7 +49,10 @@ const Navbar = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink className=" text-md font-light">
+                        <NavLink
+                            to={"customer_care"}
+                            className=" text-md font-light"
+                        >
                             Customer Care
                         </NavLink>
                     </li>
