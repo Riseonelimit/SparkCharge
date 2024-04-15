@@ -12,6 +12,7 @@ import UserProfile from './pages/UserProfile.jsx'
 import Payment from './pages/Payment.jsx'
 import UserBooking from './pages/UserBooking.jsx'
 import ProtectedRoute from "./components/utils/ProtectedRoute.jsx";
+import { CustomerCare } from "./components/CustomerCare.jsx";
 
 const router = createBrowserRouter([
     {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
                 path: "register",
                 element: <Login />,
+            },
+            {
+                path: "customer_care",
+                element: <CustomerCare />,
             },
             {
                 path: "profile",
